@@ -8,20 +8,22 @@ I thought it will be a good idea to share this beginner and easy implementation 
 
 ## Compilation
 
-This implementation use few C-standard libraries. Thefore a simple compilation can 
-be issue to compile the implementaiton.
+To compile the software you can run the `compile` script located on the `bin` directory 
 
 ```sh
-$ gcc -Wall -o ./game-of-life game-of-life.c
+$ bin/compile
 ```
+OBS: The `bin/compile` script use the GCC compiler
 
 ## Execution
 
-By default the Game of Life uses a 20 x 20 grid, but it can be changed through the command-line
+By default the Game of Life uses a `20x20` grid, but it can be changed through the command-line
 arguments. On the following example the program is executed with 30x30 grid.
 
 ```sh
-$ ./game-of-life 30
+$ ./game-of-life      # Use the 20x20 organism size
+
+$ ./game-of-life 30   # Use a 30x30 organism size
 ```
 
 ## Rules

@@ -1,14 +1,21 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <time.h>
 #include <unistd.h>
 
-/* max number of iteration for the organism */
-#define MAX_ITERATIONS 500
+#include "gl_signal.h"
 
 /* define states variable */
 #define DEAD_CELL 0
 #define ALIVE_CELL 1
+
+/**
+ * Declare the gl_quitgame extern variable (from src/gl_signal.c)
+ * and define as false.
+ */
+bool gl_quitgame = false;
 
 /**
  * Organism structure holds the organism cells, lenght
@@ -31,7 +38,8 @@ void
 organism_print(struct organism_t *organism)
 {
     fprintf(stdout, "Game of life\n");
-    fprintf(stdout, "Organism:\n\n");
+    fprintf(stdout, "  This organism can die of 'natural order' or");
+    fprintf(stdout, "  you can kill it using CTRL^C\n\n");
 
     for (int i = 0; i < organism->length; i++) {
         fprintf(stdout, "\t"); /* Do a tab for each line */
@@ -215,17 +223,23 @@ organism_lifecycle(struct organism_t *organism)
 int
 main(const int argc, char* argv[])
 {
-    int organism_length = 20;
+    int organism_length = 20; /* the square length of the organism */
+    int changed; /* how many cells changed, returned from organis_lifecycle fun */
+
     if (argc == 2) {
         organism_length = atoi(argv[1]);
     }
+
+    /* define CTRL^C handler */
+    signal(SIGINT, gl_quit_handler);
 
     /* initialize a organism structure */
     struct organism_t organism;
     organism_init(&organism, organism_length);
 
     /* Iterate a few Organism's lifecycle to see their interaction */
-    for (int i = 0, changed = 0; i < MAX_ITERATIONS; i++) {
+    for (long long i = 0; gl_quitgame == false; i++) {
+
         printf("\e[1;1H\e[2J"); /* clear screen first */
 
         organism_print(&organism);
@@ -239,9 +253,10 @@ main(const int argc, char* argv[])
         }
         else {
             fprintf(stdout, "Summary:\n");
+            fprintf(stdout, "  %lld Cycles (year) of this organims\n", i);
             fprintf(stdout, "  %d Alive cells\n", organism.alive_cells);
             fprintf(stdout, "  %d Dead cells\n", organism.dead_cells);
-            fprintf(stdout, "  %d Items changed on the organism lifecycle\n", changed);
+            fprintf(stdout, "  %d Items changed\n", changed);
         }
 
         usleep(100000); /* wait 500 ms to the next round, because we humans are not so fast */

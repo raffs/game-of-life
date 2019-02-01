@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Script used to compile the Game-of-life
+
+[[ ! $GOL_GCC    ]] && export GOL_GCC='gcc'
+[[ ! $GOL_OUTPUT ]] && export GOL_OUTPUT='./game-of-life'
+
+
+# Compiling the Game-of-Life (GOL) binary using GCC
+echo "Start compiling the application, this could take a few miliseconds! "
+$GOL_GCC -Wall -o "./$GOL_OUTPUT" src/*.c
