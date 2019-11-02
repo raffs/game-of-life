@@ -1,0 +1,16 @@
+name: CI 
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: compiling
+    run-on: ubuntu-latest
+
+    # Steps to be executed by github actions
+    steps:
+
+      - name: building
+        run: |
+            echo "Starting compilation"
+            bin/compile 
