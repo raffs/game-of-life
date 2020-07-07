@@ -1,16 +1,21 @@
-name: CI 
-
-on: [push, pull_request]
+name: Game Of Life CI 
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   build:
     name: compiling
-    run-on: ubuntu-latest
-
-    # Steps to be executed by github actions
+    runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
 
-      - name: building
+      - name: compiling
+        shell: bash
         run: |
             echo "Starting compilation"
-            bin/compile 
+            ls .
+            bin/compile
