@@ -23,10 +23,10 @@ bool gl_quitgame = false;
  */
 struct organism_t
 {
-    uint8_t **cells;       /* the cells of this organism */
-    uint32_t length;       /* the length of the array */
-    uint32_t dead_cells;   /* count the dead cells */
-    uint32_t alive_cells;  /* count the alive cells */
+    u_int8_t **cells;       /* the cells of this organism */
+    u_int32_t length;       /* the length of the array */
+    u_int32_t dead_cells;   /* count the dead cells */
+    u_int32_t alive_cells;  /* count the alive cells */
 };
 
 
@@ -62,16 +62,16 @@ organism_print(struct organism_t *organism)
  * Initialize the organism cells states randomly.
  */
 void
-organism_init(struct organism_t *organism, uint32_t length)
+organism_init(struct organism_t *organism, u_int32_t length)
 {
     srand(time(NULL));
 
     /* Initialize the organism values */
     organism->length = length;
-    organism->cells  = (uint8_t **) malloc(length * sizeof(uint8_t *));
+    organism->cells  = (u_int8_t **) malloc(length * sizeof(u_int8_t *));
 
     for (int i = 0; i < length; i++) {
-        organism->cells[i] = (uint8_t *) malloc(length * sizeof(uint8_t));
+        organism->cells[i] = (u_int8_t *) malloc(length * sizeof(u_int8_t));
 
         /* initialize the cells with zero */
         for (int j = 0; j < length; j++) {
@@ -138,8 +138,8 @@ organism_lifecycle(struct organism_t *organism)
     /* init vars */
     int is_skip;
     int rcode = 0;
-    uint16_t dead_cells, live_cells;
-    uint16_t row_prev, row_next, col_prev, col_next;
+    u_int16_t dead_cells, live_cells;
+    u_int16_t row_prev, row_next, col_prev, col_next;
 
     /* iterate over each cell space */
     for (int i = 0; i < organism->length; i++) {
